@@ -26,7 +26,7 @@ func (df *DecoratedFilter) Process(data interface{}) (interface{}, error) {
 
 // DecorateFilter is to leverage the project "https://github.com/easierway/service_decorators"
 // By this method, you can decorate the deocrators on a Filter instance
-func DecorateFilter(orgFilter Filter, serviceDecorators []service_decorators.Decorator) Filter {
+func DecorateFilter(orgFilter Filter, serviceDecorators ...service_decorators.Decorator) Filter {
 	df := DecoratedFilter{orgFilter: orgFilter, serviceDecorators: serviceDecorators}
 	df.decorateOrgFilter()
 	return &df

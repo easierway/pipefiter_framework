@@ -42,9 +42,9 @@ func TestDecoratorFilter(t *testing.T) {
 		time.Second*1, time.Second*2, retriableChecker); err != nil {
 		panic(err)
 	}
-	decorators := []service_decorators.Decorator{retryDec}
+
 	orgFilter := &demoFilter{}
-	decoratedFilter := DecorateFilter(orgFilter, decorators)
+	decoratedFilter := DecorateFilter(orgFilter, retryDec)
 	startT := time.Now()
 	ret, err := decoratedFilter.Process("Hello")
 	timeSpent := time.Now().Sub(startT).Nanoseconds()
@@ -71,15 +71,13 @@ func ExampleDecoratedFilter() {
 		time.Second*1, time.Second*2, retriableChecker); err != nil {
 		panic(err)
 	}
-	// Put all decorators in the slice.
-	// Be careful of the order of the decorators, your filter will be decorated by the same order
-	// and the decorators will be invoked by the same order
-	decorators := []service_decorators.Decorator{retryDec}
 
 	// 2. Decorate the filter with the decorators by calling DecorateFilter
+	// Be careful of the order of the decorators, your filter will be decorated by the same order
+	// and the decorators will be invoked by the same order
 	// after that you will get a deocrated Filter instance
 	orgFilter := &demoFilter{}
-	decoratedFilter := DecorateFilter(orgFilter, decorators)
+	decoratedFilter := DecorateFilter(orgFilter, retryDec)
 
 	// 3. The decorated instance can be used as a normal Fiter instance
 	decoratedFilter.Process("Hello")
